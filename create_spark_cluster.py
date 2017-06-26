@@ -15,13 +15,10 @@ def main(project_id,
          master_type,
          disk_size,
          timeout):
-    if project_id == 'vex-eu-cloud-sql-001':
-        init_actions_path = 'gs://vex-eu-data/dataproc-init-scripts/jupyter.sh'
-    else:
-        init_actions_path = 'gs://vex-recommenders-init-scripts/jupyter.sh'
+    init_actions_path = 'gs://my-bucket/path/to/init-actions-script.sh'
     command = 'gcloud dataproc clusters create {0:s} '.format(cluster_name)
     options = []
-    options.append('--metadata "JUPYTER_PORT=8124,JUPYTER_CONDA_PACKAGES=numpy:pandas:scikit-learn:matplotlib,INIT_ACTIONS_REPO=https://github.com/bodschut/dataproc-initialization-actions.git"')
+    options.append('--metadata "JUPYTER_PORT=8124,JUPYTER_CONDA_PACKAGES=numpy:pandas:scikit-learn:matplotlib,INIT_ACTIONS_REPO=https://github.com/username/my-init-actions-fork.git"')
     options.append('--initialization-actions {:s}'.format(init_actions_path))
     if bucket_name:
         options.append('--bucket {:s}'.format(bucket_name))
@@ -45,7 +42,7 @@ if __name__ == '__main__':
     parser.add_argument(
     	'cluster_name', help='Name of the cluster to create')
     parser.add_argument(
-        '--project_id', help='Project ID you want to access.', default='vex-recommenders'),
+        '--project_id', help='Project ID you want to access.', default='my-default-project'),
     parser.add_argument(
         '--zone', help='Region to create clusters in', default='europe-west1-d')
     parser.add_argument(
